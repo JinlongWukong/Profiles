@@ -1,0 +1,36 @@
+config:
+  boot.autostart: "true"
+  linux.kernel_modules: iptable_nat, ebtables, openvswitch,nbd,ip_tables,ip6_tables,netlink_diag,nf_nat_ftp,nf_conntrack_ftp,nf_conntrack_netbios_ns
+  raw.lxc: |
+    lxc.cap.drop=
+    lxc.apparmor.profile=unconfined
+    lxc.mount.auto=sys:rw
+  security.nesting: "true"
+  security.privileged: "true"
+description: Default LXD profile
+devices:
+  eth0:
+    name: eth0
+    nictype: bridged
+    parent: lxdbr0
+    type: nic
+  eth1:
+    name: eth1
+    nictype: bridged
+    parent: virbr0
+    type: nic
+  kvm:
+    path: /dev/kvm
+    type: unix-char
+  root:
+    path: /
+    pool: default
+    type: disk
+  vhost-net:
+    mode: "0600"
+    path: /dev/vhost-net
+    type: unix-char
+name: kvm-enable
+used_by:
+- /1.0/containers/openstack
+- /1.0/containers/openstack/allInone-bk
