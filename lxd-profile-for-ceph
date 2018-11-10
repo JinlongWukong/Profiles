@@ -1,0 +1,42 @@
+config:
+  boot.autostart: "true"
+  linux.kernel_modules: iptable_nat, ebtables, openvswitch,nbd,ip_tables,ip6_tables,netlink_diag,nf_nat_ftp,nf_conntrack_ftp,nf_conntrack_netbios_ns,dm_mod
+  raw.lxc: |
+    lxc.cap.drop=
+    lxc.apparmor.profile=unconfined
+    lxc.mount.auto=sys:rw
+    lxc.cgroup.devices.allow = b 7:* rwm
+    lxc.cgroup.devices.allow = b 252:* rwm             #### -> use lsblk to check major num of lvm devices
+  security.nesting: "true"
+  security.privileged: "true"
+description: Default LXD profile
+devices:
+  control:
+    path: /dev/mapper/control
+    type: unix-char
+  eth0:
+    name: eth0
+    nictype: bridged
+    parent: lxdbr0
+    type: nic
+  loop-control:
+    path: /dev/loop-control
+    type: unix-char
+  loop5:
+    path: /dev/loop5
+    type: unix-block
+  loop6:
+    path: /dev/loop6
+    type: unix-block
+  loop7:
+    path: /dev/loop7
+    type: unix-block
+  root:
+    path: /
+    pool: default
+    type: disk
+name: ceph-osd
+used_by:
+- /1.0/containers/ceph1
+- /1.0/containers/ceph2
+- /1.0/containers/ceph3
