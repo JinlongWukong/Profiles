@@ -26,12 +26,5 @@ pipeline {
       }
     }
 
-    stage('stg4') {
-      steps {
-        build 'sdf'
-        error 'byebye'
-      }
-    }
-
   }
 }
